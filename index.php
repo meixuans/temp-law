@@ -16,36 +16,69 @@
 			exit;
 		}
 		#Output
+		echo "<table border='1'>
+		<tr>
+		<th>unique_id</th>
+		<th>unqiue_client_id</th>
+		<th>parent_id</th>
+		<th>lient_name</th>
+		</tr>";
+		echo "<b>1. Client Table: </b><br>";
 		while ($row = pg_fetch_row($result_client))
 		{
-			echo "<b>1. Client Table: </b><br>";
-			echo "<b>unique_id: </b>" . $row[0] . "<br>";
-			echo "<b>unqiue_client_id: </b>" . $row[1] . "<br>";
-			echo "<b>parent_id: </b>" . $row[2] . "<br>";
-			echo "<b>client_name: </b>" . $row[3] . "<br>";
+			echo "<tr>";
+			echo "<td>" . $row[0] . "</td>";
+			echo "<td>" . $row[1] . "</td>";
+			echo "<td>" . $row[2] . "</td>";
+			echo "<td>" . $row[3] . "</td>";
 		}
+		echo "</table>";
 		echo "<br><br>";
+
+
+		echo "<table border='1'>
+		<tr>
+		<th>unique_id</th>
+		<th>title</th>
+		<th>tags</th>
+		<th>author</th>
+		<th>date</th>
+		<th>clause_string</th>
+		</tr>";
+		echo "<b>2. Clause Table: </b><br>";
 		while ($row = pg_fetch_row($result_clause))
 		{
-			echo "<b>2. Clause Table: </b><br>";
-			echo "<b>unique_id: </b>" . $row[0] . "<br>";
-			echo "<b>title: </b>" . $row[2] . "<br>";
-			echo "<b>tags: </b>" . $row[3] . "<br>";
-			echo "<b>author: </b>" . $row[4] . "<br>";
-			echo "<b>date: </b>" . $row[6] . "<br>";
-			echo "<b>clause_string: </b>" . $row[10] . "<br>";
+			echo "<tr>";
+			echo "<td>" . $row[0] . "</td>";
+			echo "<td>" . $row[2] . "</td>";
+			$string = explode ("||", $row[3]); 
+			$temp_tag = $string[0].", ".$string[1];
+			echo "<td>$temp_tag</td>";
+			echo "<td>" . $row[4] . "</td>";
+			echo "<td>" . $row[6] . "</td>";
+			echo "<td>" . $row[10] . "</td>";
 		}
-
+		echo "</table>";
 		echo "<br><br>";
+
+
+		echo "<table border='1'>
+		<tr>
+		<th>unique_id</th>
+		<th>document type</th>
+		<th>author</th>
+		<th>date</th>
+		</tr>";
+		echo "<b>3. Document Table: </b><br>";
 		while ($row = pg_fetch_row($result_document))
 		{
-			echo "<b>3. Document Table: </b><br>";
-			echo "<b>unique_id: </b>" . $row[0] . "<br>";
-			echo "<b>document type: </b>" . $row[2] . "<br>";
-			echo "<b>author: </b>" . $row[3] . "<br>";
-			echo "<b>date: </b>" . $row[5] . "<br>";
+			echo "<tr>";
+			echo "<td>" . $row[0] . "</td>";
+			echo "<td>" . $row[2] . "</td>";
+			echo "<td>" . $row[3] . "</td>";
+			echo "<td>" . $row[5] . "</td>";
 		}
-
+		echo "</table>";
 
 		pg_close($connection);
 
