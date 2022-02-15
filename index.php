@@ -2,9 +2,73 @@
 <html>
 <head>
 	<title>AWS attempt</title>
+	<!-- todo: move to a separate js file  -->
+	<link rel="stylesheet" href="//code.jquery.com/ui/1.13.1/themes/base/jquery-ui.css">
+	<script src='main.js'></script>	
+	<script src="https://code.jquery.com/jquery-3.6.0.js"></script>
+    <script src="https://code.jquery.com/ui/1.13.1/jquery-ui.js"></script>
+    <script>
+    	// todo: currently unable to include inside main.js
+    	$(document).ready(function(){
+			$.datepicker.setDefaults({
+				dateFormat: 'yy-mm-dd'
+			});
+			$(function(){
+				$("#from_date").datepicker();
+				$("#to_date").datepicker();
+			});
+			$("#select_button").click(function(){
+				var from_date = $("#from_date").val();
+				var to_date = $("#to_date").val();
+				if (from_date != '' && to_date != '') {
+					$.ajax({
+						url: "clause_date.php",
+						method:"POST",
+						data: {from_date: from_date, to_date:to_date},
+						success:function(data)
+						{
+							console.log(data);
+							document.getElementById("selected_clause").innerHTML = data;
+						}
+					});
+				} else {
+					alert("You need to select a date!");
+				}
+			});
+		});
+    </script>
 </head>
 <body>
 	<h1>Hello Pastperfect</h1>
+	<!-- 1. This is to filter client data by company -->
+	<script src='main.js'></script>
+	<div class = "document_container">
+		<h2 style =  "color: #008CBA;"> 1. Filter by Company</h2>
+		<form>
+			Searching Company: <input type="text" class = "form-control" onkeyup="company_filter(this.value)">
+		</form>
+		<p>Suggestions: <span id = "output2"></span></p>
+	</div>
+
+	<!-- 2. This is to sort by date in document table -->
+	<div class = "document_container">
+		<h2 style =  "color: green;"> 2. Sort by date in document table</h2>
+		<button  onclick="sort_date_func()">Sort by Date</button>
+		<div id = "sorted_doc"></div>
+	</div>
+
+	<!-- 3. This is to select by date in clause table -->
+	<div class = "document_container">
+		<h2 style =  "color: pink;"> 3. Select by date in clause table</h2>
+		<div class = "date1">
+			<input type="text" name="from" id = "from_date" class= "form-control" placeholder="From Date"/>
+			<input type="text" name="to" id = "to_date" class= "form-control" placeholder="To Date"/>
+			<button id = "select_button" style = "background-color: #4CAF50; color: white;">Search clause</button>
+			<div id = "selected_clause"></div>
+		</div>
+	</div>
+
+	<h2 style =  "color: orange;"> 4. Display all data </h2>
 	<?php
 		include 'connect.php';
 		#Queries
@@ -81,7 +145,6 @@
 		echo "</table>";
 
 		pg_close($connection);
-
-
 	?>
+
 </body>
