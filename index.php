@@ -40,6 +40,18 @@
 </head>
 <body>
 	<h1>Hello Pastperfect</h1>
+
+	<!-- 0. File upload  -->
+	<div class = "document_container">
+		<h2 style =  "color: red;"> 0. File Upload test</h2>
+		<form method="POST" enctype="multipart/form-data" action="file_handler.php">
+			<input type="File" name = "file">
+			<button type="submit" name="submit">Submit</button>
+		</form>
+		<button onclick="see_all_files()">See all files</button>
+		<p>Files: <span id = "output00"></span></p>
+	</div>
+
 	<!-- 1. This is to filter client data by company -->
 	<script src='main.js'></script>
 	<div class = "document_container">
@@ -71,6 +83,7 @@
 	<h2 style =  "color: orange;"> 4. Display all data </h2>
 	<?php
 		include 'connect.php';
+
 		#Queries
 		$result_client = pg_query($connection, "select * from public.\"Client_Table\"");
 		$result_clause = pg_query($connection, "select * from public.\"Clause_Table\"");
